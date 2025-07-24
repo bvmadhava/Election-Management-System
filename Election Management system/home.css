@@ -1,0 +1,27 @@
+#header{
+    background-color: rgb(249, 231, 207);
+    height: 50px;
+    padding-left: 1150px;
+    font-size: 25px;
+    padding-top: 13px;
+}
+h1{
+    text-align: center;
+}
+#voter{
+    height: 250px;
+    width: 250px;
+    border-radius: 200px;
+    margin-right: 50px;
+    cursor: pointer;
+}
+#election_comissioner{
+    height: 250px;
+    width: 250px;
+    border-radius: 200px;
+    cursor: pointer;
+}
+#b{
+    text-align: center;
+    margin-top: 150px;
+}

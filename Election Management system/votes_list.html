@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Votes Overview</title>
+  <style>
+    body {
+      padding: 30px;
+      background: #f4f4f4; 
+      text-align: center;
+    }
+    h2 { 
+      color: #333; 
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-left: 500px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Vote Count Overview</h2>
+  <div class="box">
+    <p id="constiInfo"></p>
+    <ul id="voteList"></ul>
+  </div>
+
+  <script>
+  fetch("http://localhost:3000/constituencies")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("voteList");
+      data.forEach(c => {
+        const title = document.createElement("h3");
+        title.textContent = `Constituency: ${c.name}`;
+        container.appendChild(title);
+        const ul = document.createElement("ul");
+        c.candidates.forEach(candidate => {
+          const li = document.createElement("li");
+          li.textContent = `${candidate.name} — ${candidate.votes} vote(s)`;
+          ul.appendChild(li);
+        });
+        container.appendChild(ul);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to load vote data.");
+    });
+</script>
+
+</body>
+</html>

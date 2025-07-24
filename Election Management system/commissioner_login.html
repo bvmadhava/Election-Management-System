@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Commissioner Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Commissioner Login</h2>
+    <form id="loginForm">
+      <label for="aadhar">Aadhar Number</label>
+      <input type="text" id="aadhar" name="aadhar" placeholder="Enter Aadhar Number" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+<script>
+  const form = document.getElementById('loginForm');
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const aadhar = document.getElementById('aadhar').value.trim();
+  const password = document.getElementById('password').value.trim();
+  try {
+    const res = await fetch(`http://localhost:3000/election_commissioner?aadhar=${aadhar}&password=${password}`);
+    const data = await res.json();
+    if (data.length>0) {
+      localStorage.setItem('user',JSON.stringify(data[0]));
+      alert('Login successful!');
+      window.location.href = 'votes_list.html';
+    } else {
+      alert('Invalid Aadhar number or password.');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('Error occurred during login.');
+  }
+});
+
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const selected = document.querySelector('input[name="candidate"]:checked');
+  if (selected) {
+    const voteData = {
+      constituency: user.constituency,
+      candidate: selected.value
+    };
+    try {
+      await fetch("http://localhost:3000/votes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(voteData)
+      });
+      alert(`You voted for: ${selected.value}`);
+      form.reset();
+    } catch (err) {
+      console.error("Vote error:", err);
+      alert("Failed to submit vote.");
+    }
+  } else {
+    alert("Please select a candidate to vote.");
+  }
+});
+</script>
+</body>
+</html>

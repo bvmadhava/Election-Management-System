@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Constituency Candidates</title>
+  <link rel="stylesheet" href="candidates.css">
+</head>
+<body>
+  <h2>Your Constituency Candidates</h2>
+  <p id="info"></p>
+  <form id="candidateForm"></form>
+  <script>
+  const user = JSON.parse(localStorage.getItem('user'));
+const form = document.getElementById("candidateForm");
+
+if (!user) {
+  alert("No user logged in.");
+  window.location.href = "login.html";
+} else {
+  fetch(`http://localhost:3000/users/${user.id}`)
+    .then(res => res.json())
+    .then(updatedUser => {
+      if (updatedUser.has_voted) {
+        document.getElementById("info").textContent = `You have already voted.`;
+        form.innerHTML = ""; 
+        return;
+      }
+      document.getElementById("info").textContent = `Constituency: ${updatedUser.constituency}`;
+      return fetch(`http://localhost:3000/constituencies?name=${encodeURIComponent(updatedUser.constituency)}`);
+    })
+    .then(res => res?.json())
+    .then(data => {
+      if (!data) return;
+      const candidates = data[0]?.candidates || [];
+      candidates.forEach((candidate, index) => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "candidate";
+        radio.value = candidate.name;
+        radio.id = `candidate_${index}`;
+        label.htmlFor = radio.id;
+        label.appendChild(radio);
+        label.append(` ${candidate.name}`);
+        form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+      });
+      const submitBtn = document.createElement("button");
+      submitBtn.type = "submit";
+      submitBtn.textContent = "Vote";
+      form.appendChild(submitBtn);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error loading data.");
+    });
+}
+
+  form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const selected = document.querySelector('input[name="candidate"]:checked');
+  if (!selected) {
+    alert("Please select a candidate.");
+    return;
+  }
+  try {
+    const res = await fetch(`http://localhost:3000/constituencies?name=${encodeURIComponent(user.constituency)}`);
+    const data = await res.json();
+    const constituency = data[0];
+    const candidateIndex = constituency.candidates.findIndex(c => c.name === selected.value);
+    if (candidateIndex === -1) {
+      alert("Candidate not found.");
+      return;
+    }
+    constituency.candidates[candidateIndex].votes++;
+    await fetch(`http://localhost:3000/constituencies/${constituency.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ candidates: constituency.candidates })
+    });
+    await fetch(`http://localhost:3000/users/${user.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ has_voted: true })
+    });
+    alert(`You voted for: ${selected.value}`);
+    form.innerHTML = "Thanks for voting!";
+  } catch (err) {
+    console.error("Vote error:", err);
+    alert("Failed to submit vote.");
+  }
+});
+
+</script>
+</body>
+</html>

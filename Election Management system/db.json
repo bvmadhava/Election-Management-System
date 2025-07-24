@@ -1,0 +1,125 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Bolli Venkata Madhava",
+      "aadhar": "123456789012",
+      "email": "bvm754455@gmail.com",
+      "password": "gradious@123",
+      "phone": "8074436451",
+      "address": "122,kandukur,nellore,Andhra pradesh",
+      "constituency": "kandukur",
+      "has_voted": true
+    },
+    {
+      "id": "2",
+      "name": "Ajith",
+      "aadhar": "987654321098",
+      "email": "ajith@gmail.com",
+      "password": "ajith@123",
+      "phone": "9123456789",
+      "address": "45,chirala,prakasam,Andhra pradesh",
+      "constituency": "chirala",
+      "has_voted": true
+    },
+    {
+      "id": "f67d",
+      "name": "Kocherla Kondal Rao",
+      "aadhar": "012345678998",
+      "email": "kondal@gmail.com",
+      "password": "kondal@123",
+      "phone": "8074412325",
+      "address": "aanandapuram,nellore,Andhra pradesh",
+      "constituency": "kandukur",
+      "has_voted": false
+    },
+    {
+      "id": "dfd2",
+      "name": "Akhil",
+      "aadhar": "789456123078",
+      "email": "akhil@gmail.com",
+      "password": "akhil@123",
+      "phone": "8425796310",
+      "address": "kanigiri,Andhra pradesh",
+      "constituency": "kanigiri",
+      "has_voted": false
+    },
+    {
+      "id": "b8b4",
+      "name": "Abhinay",
+      "aadhar": "123456789012",
+      "email": "abhinay@gmail.com",
+      "password": "abhinay@123",
+      "phone": "7824569130",
+      "address": "chirala, Andhra pradesh",
+      "constituency": "chirala",
+      "has_voted": false
+    }
+  ],
+  "election_commissioner": [
+    {
+      "id": "ec1",
+      "name": "Nilam sawhney",
+      "aadhar": "112233445566",
+      "email": "nilam@gmail.com",
+      "password": "nilam@123",
+      "phone": "7812459632"
+    }
+  ],
+  "constituencies": [
+    {
+      "id": "1",
+      "name": "kandukur",
+      "candidates": [
+        {
+          "name": "Madhusudhan yadav",
+          "votes": 4
+        },
+        {
+          "name": "Inturi nageswarao",
+          "votes": 1
+        },
+        {
+          "name": "sivaram",
+          "votes": 1
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "chirala",
+      "candidates": [
+        {
+          "name": "Mahendra",
+          "votes": 7
+        },
+        {
+          "name": "Aadi kesavulu",
+          "votes": 1
+        },
+        {
+          "name": "Sai ram",
+          "votes": 0
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "kanigiri",
+      "candidates": [
+        {
+          "name": "Krishna",
+          "votes": 0
+        },
+        {
+          "name": "Madhu",
+          "votes": 0
+        },
+        {
+          "name": "Ashok",
+          "votes": 0
+        }
+      ]
+    }
+  ]
+}

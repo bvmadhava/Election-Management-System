@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Signup</h2>
+    <form id="signup-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter Full Name" required>
+      <label for="aadhar">Aadhar Number</label>
+      <input type="text" id="aadhar" name="aadhar" placeholder="Enter Aadhar Number" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter Email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required>
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required>
+      <label for="constituency">Constituency Name</label>
+      <input type="text" id="constituency" name="constituency" placeholder="Enter constituency name" required>
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3" placeholder="Enter Address" required></textarea>
+      <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
+  </div>
+  <script>
+    const form=document.getElementById('signup-form');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const userData = {
+        name: document.getElementById('name').value,
+        aadhar: document.getElementById('aadhar').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        constituency:document.getElementById('constituency').value,
+        has_voted: false
+      };
+      try {
+        const res = await fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        });
+        if (res.ok) {
+          alert('Signup successful!');
+          form.reset();
+        } else {
+          alert('Failed to signup.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while signing up.');
+      }
+    });
+  </script>
+</body>
+</html>
